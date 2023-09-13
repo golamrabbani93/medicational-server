@@ -4,8 +4,11 @@ const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 5000;
 // !middleware
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+
+// ! Import Routes
+const appointmentRoute = require('./Routes/AppointmentOption');
 
 // !database connection with mongoose
 const database = () => {
@@ -13,6 +16,7 @@ const database = () => {
 		mongoose
 			.connect('mongodb://127.0.0.1:27017/', {
 				dbName: 'Medicational',
+				family: 4,
 			})
 			.then(() => {
 				console.log('database Connected');
@@ -24,6 +28,9 @@ const database = () => {
 		console.log(error);
 	}
 };
+
+// !Appointment Option Route
+app.use('/appointment', appointmentRoute);
 database();
 // !Root Directory
 app.get('/', (req, res) => {
