@@ -9,7 +9,7 @@ app.use(express.json());
 
 // ! Import Routes
 const appointmentRoute = require('./Routes/AppointmentOption');
-
+const bookingRoute = require('./Routes/Booking');
 // !database connection with mongoose
 const database = () => {
 	try {
@@ -31,6 +31,8 @@ const database = () => {
 
 // !Appointment Option Route
 app.use('/appointment', appointmentRoute);
+// !Booking Route
+app.use('/booking', bookingRoute);
 database();
 // !Root Directory
 app.get('/', (req, res) => {
