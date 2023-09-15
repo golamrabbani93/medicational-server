@@ -5,13 +5,26 @@ const router = express.Router();
 // !import Schemas
 
 const appointmentSchema = require('../Schemas/appointmentSchema');
+const bookingSchema = require('../Schemas/bookingSchemas');
 
-// !Create Collection
+// !Create appointmentoption Collection
 const appointment = mongoose.model('appointmentoption', appointmentSchema);
+// !Get booking Collection
+const BookingCollection = mongoose.model('booking', bookingSchema);
 
 router.get('/', async (req, res) => {
 	try {
+		const date = req.query.date;
 		const appointmentOptions = await appointment.find({});
+		// !booking query
+		const bookingQuery = {date: date};
+		const bookedData = await BookingCollection.find(bookingQuery);
+		appointmentOptions.forEach((option) => {
+			const optionBooked = bookedData.filter((book) => book.treatment === option.name);
+			const bookedSlots = optionBooked.map((book) => book.slot);
+			const remainSlots = option.slots.filter((slot) => !bookedSlots.includes(slot));
+			option.slots = remainSlots;
+		});
 		if (appointmentOptions[0]) {
 			res.status(200).send({
 				message: 'Successful',
