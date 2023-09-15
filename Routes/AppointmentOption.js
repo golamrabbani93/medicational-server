@@ -14,12 +14,12 @@ router.get('/', async (req, res) => {
 		const appointmentOptions = await appointment.find({});
 		if (appointmentOptions[0]) {
 			res.status(200).send({
-				messsage: 'Successful',
+				message: 'Successful',
 				data: appointmentOptions,
 			});
 		} else {
 			res.status(404).send({
-				messsage: 'Data Not Found',
+				message: 'Data Not Found',
 				data: 0,
 			});
 		}
