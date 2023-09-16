@@ -8,7 +8,26 @@ const bookingSchema = require('../Schemas/bookingSchemas');
 // !Create Collection
 const BookingCollection = mongoose.model('booking', bookingSchema);
 
-router.get('/', async (req, res) => {});
+router.get('/', async (req, res) => {
+	try {
+		const userEmail = req.query.email;
+		const bookingQuery = {email: userEmail};
+		const userBooking = await BookingCollection.find(bookingQuery);
+		if (userBooking[0]) {
+			res.status(200).send({
+				message: 'Successful',
+				data: userBooking,
+			});
+		} else {
+			res.status(404).send({
+				message: 'Data Not Found',
+				data: 0,
+			});
+		}
+	} catch (error) {
+		res.status(500).send('There was Sever Side Error');
+	}
+});
 router.get('/:id', async (req, res) => {});
 router.post('/', async (req, res) => {
 	try {
