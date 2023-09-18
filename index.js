@@ -10,9 +10,9 @@ app.use(express.json());
 // ! Import Routes
 const appointmentRoute = require('./Routes/AppointmentOption');
 const bookingRoute = require('./Routes/Booking');
-const userRoute = require('./Routes/User');
+const userRoute = require('./Routes/Users');
 const jwtRoute = require('./Routes/JwtRoute');
-// !database connection with mongoose
+// !database conection with mongoose
 const database = () => {
 	try {
 		mongoose
@@ -36,7 +36,7 @@ app.use('/appointment', appointmentRoute);
 // !Booking Route
 app.use('/booking', bookingRoute);
 // !User Route
-app.use('/user', userRoute);
+app.use('/users', userRoute);
 // !jwt Route
 app.use('/jwt', jwtRoute);
 database();
