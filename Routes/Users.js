@@ -57,7 +57,30 @@ router.post('/', async (req, res) => {
 		res.status(500).send('There Was Server Side Error');
 	}
 });
-router.put('/:id', async (req, res) => {});
+router.put('/admin/:id', async (req, res) => {
+	try {
+		const userId = req.params.id;
+		const query = {_id: userId};
+		const user = await userCollection.findOne(query);
+		const updateDoc = {
+			$set: {
+				role: 'Admin',
+			},
+		};
+		const result = await userCollection.updateOne(query, updateDoc);
+		if (result.acknowledged) {
+			res.status(200).send({
+				message: 'Make Admin Successful',
+			});
+		} else {
+			res.status(404).send({
+				message: 'Make Admin Faild',
+			});
+		}
+	} catch (error) {
+		res.status(500).send('There Was Server Side Error');
+	}
+});
 router.delete('/:id', async (req, res) => {});
 
 module.exports = router;

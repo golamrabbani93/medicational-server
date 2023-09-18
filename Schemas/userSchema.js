@@ -9,6 +9,9 @@ const userSchema = mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	role: {
+		type: String,
+	},
 });
 
 module.exports = userSchema;
