@@ -11,7 +11,7 @@ app.use(express.json());
 const appointmentRoute = require('./Routes/AppointmentOption');
 const bookingRoute = require('./Routes/Booking');
 const userRoute = require('./Routes/User');
-const jwtRiute = require('./Routes/JwtRoute');
+const jwtRoute = require('./Routes/JwtRoute');
 // !database connection with mongoose
 const database = () => {
 	try {
@@ -38,7 +38,7 @@ app.use('/booking', bookingRoute);
 // !User Route
 app.use('/user', userRoute);
 // !jwt Route
-app.use('/jwt', jwtRiute);
+app.use('/jwt', jwtRoute);
 database();
 // !Root Directory
 app.get('/', (req, res) => {
