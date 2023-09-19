@@ -16,7 +16,7 @@ const jwtRoute = require('./Routes/JwtRoute');
 const database = () => {
 	try {
 		mongoose
-			.connect('mongodb://127.0.0.1:27017/', {
+			.connect(process.env.MEDICATIONAL_DATABASE, {
 				dbName: 'Medicational',
 				family: 4,
 			})
