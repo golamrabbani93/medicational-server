@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-
+const jwt = require('jsonwebtoken');
 // !Import Schema
 const userSchema = require('../Schemas/userSchema');
 
