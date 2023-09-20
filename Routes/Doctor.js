@@ -50,6 +50,25 @@ router.post('/', verifyJWT, async (req, res) => {
 		res.status(500).send('There was Sever Side Error');
 	}
 });
+// !delete Doctor By Ids
+router.delete('/:id', async (req, res) => {
+	try {
+		const id = req.params.id;
+		const query = {_id: id};
+		const result = await doctorCollection.deleteOne(query);
+		if (result.deletedCount > 0) {
+			res.status(200).send({
+				message: 'Delete Successful',
+			});
+		} else {
+			res.status(404).send({
+				message: 'Delete Successful',
+			});
+		}
+	} catch (error) {
+		res.status(500).send('There was Sever Side Error');
+	}
+});
 router.get('/specialities', async (req, res) => {
 	try {
 		const query = {};
