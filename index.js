@@ -3,15 +3,19 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 5000;
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
 // !middleware
 app.use(cors());
 app.use(express.json());
-
+dotenv.config();
 // ! Import Routes
 const appointmentRoute = require('./Routes/AppointmentOption');
 const bookingRoute = require('./Routes/Booking');
 const userRoute = require('./Routes/Users');
 const jwtRoute = require('./Routes/JwtRoute');
+const doctorRoute = require('./Routes/Doctor');
 // !database conection with mongoose
 const database = () => {
 	try {
@@ -39,6 +43,8 @@ app.use('/booking', bookingRoute);
 app.use('/users', userRoute);
 // !jwt Route
 app.use('/jwt', jwtRoute);
+// !Doctor Route
+app.use('/doctor', doctorRoute);
 database();
 // !Root Directory
 app.get('/', (req, res) => {
