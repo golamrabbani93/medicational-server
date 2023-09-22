@@ -5,6 +5,7 @@ const router = express.Router();
 // !Import Schema
 const userSchema = require('../Schemas/userSchema');
 const verifyJWT = require('../middlewares/verifyJWT');
+const verifyAdmin = require('../middlewares/verifyAdmin');
 
 // !create user Collection
 const userCollection = mongoose.model('user', userSchema);

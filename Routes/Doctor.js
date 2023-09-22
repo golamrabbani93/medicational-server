@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const verifyJWT = require('../middlewares/verifyJWT');
+const verifyAdmin = require('../middlewares/verifyAdmin');
 
 //!Schemas
 const doctorSchema = require('../Schemas/doctorSchema');
@@ -11,7 +12,7 @@ const appointmentSchema = require('../Schemas/appointmentSchema');
 const doctorCollection = mongoose.model('doctor', doctorSchema);
 const AppointmentCollection = mongoose.model('appointmentoption', appointmentSchema);
 
-router.get('/', verifyJWT, async (req, res) => {
+router.get('/', verifyJWT, verifyAdmin, async (req, res) => {
 	try {
 		const qurey = {};
 		const allDoctors = await doctorCollection.find(qurey);
@@ -51,7 +52,7 @@ router.post('/', verifyJWT, async (req, res) => {
 	}
 });
 // !delete Doctor By Ids
-router.delete('/:id', verifyJWT, async (req, res) => {
+router.delete('/:id', verifyJWT, verifyAdmin, async (req, res) => {
 	try {
 		const id = req.params.id;
 		const query = {_id: id};
