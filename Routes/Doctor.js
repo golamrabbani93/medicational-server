@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const verifyJWT = require('../config/JwtConfig');
+const verifyJWT = require('../middlewares/verifyJWT');
 
 //!Schemas
 const doctorSchema = require('../Schemas/doctorSchema');

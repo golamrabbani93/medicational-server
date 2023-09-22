@@ -8,7 +8,7 @@ const bookingSchema = require('../Schemas/bookingSchemas');
 // !Create Collection
 const BookingCollection = mongoose.model('booking', bookingSchema);
 // !get JWT verify Function
-const verifyJwt = require('../config/JwtConfig');
+const verifyJwt = require('../middlewares/verifyJWT');
 
 router.get('/', verifyJwt, async (req, res) => {
 	try {
