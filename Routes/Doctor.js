@@ -51,7 +51,7 @@ router.post('/', verifyJWT, async (req, res) => {
 	}
 });
 // !delete Doctor By Ids
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyJWT, async (req, res) => {
 	try {
 		const id = req.params.id;
 		const query = {_id: id};
