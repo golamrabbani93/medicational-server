@@ -64,16 +64,6 @@ router.get('/admin/:email', async (req, res) => {
 		const email = req.params.email;
 		const query = {email};
 		const user = await userCollection.findOne(query);
-
-		// if (user.role === 'Admin') {
-		// 	res.status(200).send({
-		// 		Admin: true,
-		// 	});
-		// } else {
-		// 	res.status(404).send({
-		// 		Admin: false,
-		// 	});
-		// }
 		if (user.role !== 'Admin') {
 			return res.send({
 				Admin: false,
@@ -118,6 +108,23 @@ router.put('/admin/:id', verifyJWT, async (req, res) => {
 		res.status(500).send('There Was Server Side Error');
 	}
 });
-router.delete('/:id', async (req, res) => {});
+router.delete('/:id', verifyJWT, async (req, res) => {
+	try {
+		const id = req.params.id;
+		const query = {_id: id};
+		const deleteUser = await userCollection.deleteOne(query);
+		if (deleteUser.deletedCount > 0) {
+			res.status(200).send({
+				message: 'Delete Successful',
+			});
+		} else {
+			res.status(404).send({
+				message: 'Delete Faild',
+			});
+		}
+	} catch (error) {
+		res.status(500).send('There Was Server Side Error');
+	}
+});
 
 module.exports = router;
