@@ -65,15 +65,23 @@ router.get('/admin/:email', async (req, res) => {
 		const query = {email};
 		const user = await userCollection.findOne(query);
 
-		if (user.role === 'Admin') {
-			res.status(200).send({
-				Admin: true,
-			});
-		} else {
-			res.status(404).send({
+		// if (user.role === 'Admin') {
+		// 	res.status(200).send({
+		// 		Admin: true,
+		// 	});
+		// } else {
+		// 	res.status(404).send({
+		// 		Admin: false,
+		// 	});
+		// }
+		if (user.role !== 'Admin') {
+			return res.send({
 				Admin: false,
 			});
 		}
+		return res.status(200).send({
+			Admin: true,
+		});
 	} catch (error) {
 		res.status(500).send('There Was Server Side Error');
 	}
