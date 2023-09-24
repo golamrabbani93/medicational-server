@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
+
+// !Middlewares
 const verifyJWT = require('../middlewares/verifyJWT');
 const verifyAdmin = require('../middlewares/verifyAdmin');
 
@@ -12,6 +14,7 @@ const appointmentSchema = require('../Schemas/appointmentSchema');
 const doctorCollection = mongoose.model('doctor', doctorSchema);
 const AppointmentCollection = mongoose.model('appointmentoption', appointmentSchema);
 
+// !Get all doctor List
 router.get('/', verifyJWT, verifyAdmin, async (req, res) => {
 	try {
 		const qurey = {};
@@ -31,7 +34,8 @@ router.get('/', verifyJWT, verifyAdmin, async (req, res) => {
 		res.status(500).send('There was Sever Side Error');
 	}
 });
-router.post('/', verifyJWT, async (req, res) => {
+// !Post A doctor information
+router.post('/', verifyJWT, verifyAdmin, async (req, res) => {
 	try {
 		const doctorData = req.body;
 		const newDoctorData = new doctorCollection(doctorData);
@@ -70,6 +74,8 @@ router.delete('/:id', verifyJWT, verifyAdmin, async (req, res) => {
 		res.status(500).send('There was Sever Side Error');
 	}
 });
+
+// !Get all specialities List from AppointmentCollection
 router.get('/specialities', async (req, res) => {
 	try {
 		const query = {};
