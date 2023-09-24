@@ -4,12 +4,15 @@ const router = express.Router();
 
 // !Import Schema
 const userSchema = require('../Schemas/userSchema');
+// !create user Collection
+const userCollection = mongoose.model('user', userSchema);
+
+// !Middawares
 const verifyJWT = require('../middlewares/verifyJWT');
 const verifyAdmin = require('../middlewares/verifyAdmin');
 
-// !create user Collection
-const userCollection = mongoose.model('user', userSchema);
-router.get('/', verifyJWT, async (req, res) => {
+// !get all user
+router.get('/', verifyJWT, verifyAdmin, async (req, res) => {
 	try {
 		const users = await userCollection.find({});
 		if (users.length > 0) {
@@ -28,6 +31,8 @@ router.get('/', verifyJWT, async (req, res) => {
 	}
 });
 router.get('/:id', async (req, res) => {});
+
+// !Post new user With email and google sign up or login
 router.post('/', async (req, res) => {
 	try {
 		const user = req.body;
@@ -59,6 +64,28 @@ router.post('/', async (req, res) => {
 		res.status(500).send('There Was Server Side Error');
 	}
 });
+
+// !delete user with User ID
+router.delete('/:id', verifyJWT, verifyAdmin, async (req, res) => {
+	try {
+		const id = req.params.id;
+		const query = {_id: id};
+		const deleteUser = await userCollection.deleteOne(query);
+		if (deleteUser.deletedCount > 0) {
+			res.status(200).send({
+				message: 'Delete Successful',
+			});
+		} else {
+			res.status(404).send({
+				message: 'Delete Faild',
+			});
+		}
+	} catch (error) {
+		res.status(500).send('There Was Server Side Error');
+	}
+});
+
+// !get user Role is Admin or general User
 router.get('/admin/:email', async (req, res) => {
 	try {
 		const email = req.params.email;
@@ -76,16 +103,9 @@ router.get('/admin/:email', async (req, res) => {
 		res.status(500).send('There Was Server Side Error');
 	}
 });
-router.put('/admin/:id', verifyJWT, async (req, res) => {
+// !update General User To admin
+router.put('/admin/:id', verifyJWT, verifyAdmin, async (req, res) => {
 	try {
-		//! check user Admin or Not
-		const decodedEmail = req.decoded.email;
-		const admin = await userCollection.findOne({email: decodedEmail});
-		if (admin.role !== 'Admin') {
-			return res.status(403).send({
-				message: 'Make Admin Faild',
-			});
-		}
 		const userId = req.params.id;
 		const query = {_id: userId};
 		const user = await userCollection.findOne(query);
@@ -102,24 +122,6 @@ router.put('/admin/:id', verifyJWT, async (req, res) => {
 		} else {
 			res.status(403).send({
 				message: 'Make Admin Faild',
-			});
-		}
-	} catch (error) {
-		res.status(500).send('There Was Server Side Error');
-	}
-});
-router.delete('/:id', verifyJWT, async (req, res) => {
-	try {
-		const id = req.params.id;
-		const query = {_id: id};
-		const deleteUser = await userCollection.deleteOne(query);
-		if (deleteUser.deletedCount > 0) {
-			res.status(200).send({
-				message: 'Delete Successful',
-			});
-		} else {
-			res.status(404).send({
-				message: 'Delete Faild',
 			});
 		}
 	} catch (error) {
