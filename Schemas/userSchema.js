@@ -12,6 +12,9 @@ const userSchema = mongoose.Schema({
 	role: {
 		type: String,
 	},
+	admin: {
+		type: String,
+	},
 });
 
 module.exports = userSchema;
