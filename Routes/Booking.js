@@ -1,16 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-// !import Schemas
 
+// !import Schemas
 const bookingSchema = require('../Schemas/bookingSchemas');
 
 // !Create Collection
 const BookingCollection = mongoose.model('booking', bookingSchema);
-// !get JWT verify Function
-const verifyJwt = require('../middlewares/verifyJWT');
 
-router.get('/', verifyJwt, async (req, res) => {
+// !Middlewares
+const verifyJwt = require('../middlewares/verifyJWT');
+const verifyAdmin = require('../middlewares/verifyAdmin');
+
+// !get all booking list
+router.get('/', verifyJwt, verifyAdmin, async (req, res) => {
 	try {
 		const userEmail = req.query.email;
 		const bookingQuery = {email: userEmail};
@@ -31,7 +34,9 @@ router.get('/', verifyJwt, async (req, res) => {
 	}
 });
 router.get('/:id', async (req, res) => {});
-router.post('/', async (req, res) => {
+
+// !Post Booking
+router.post('/', verifyJwt, async (req, res) => {
 	try {
 		const bookingData = req.body;
 		const checkedBooking = new BookingCollection(bookingData);
