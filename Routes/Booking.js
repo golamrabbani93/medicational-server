@@ -10,10 +10,9 @@ const BookingCollection = mongoose.model('booking', bookingSchema);
 
 // !Middlewares
 const verifyJwt = require('../middlewares/verifyJWT');
-const verifyAdmin = require('../middlewares/verifyAdmin');
 
 // !get all booking list
-router.get('/', verifyJwt, verifyAdmin, async (req, res) => {
+router.get('/', verifyJwt, async (req, res) => {
 	try {
 		const userEmail = req.query.email;
 		const bookingQuery = {email: userEmail};
@@ -33,7 +32,27 @@ router.get('/', verifyJwt, verifyAdmin, async (req, res) => {
 		res.status(500).send('There was Sever Side Error');
 	}
 });
-router.get('/:id', async (req, res) => {});
+// !Get Single Booking By Id
+router.get('/:id', verifyJwt, async (req, res) => {
+	try {
+		const bookingId = req.params.id;
+		const bookingQuery = {_id: bookingId};
+		const booking = await BookingCollection.findOne(bookingQuery);
+		if (booking._id) {
+			res.status(200).send({
+				message: 'Successful',
+				data: booking,
+			});
+		} else {
+			res.status(404).send({
+				message: 'Data Not Found',
+				data: 0,
+			});
+		}
+	} catch (error) {
+		res.status(500).send('There was Sever Side Error');
+	}
+});
 
 // !Post Booking
 router.post('/', verifyJwt, async (req, res) => {
