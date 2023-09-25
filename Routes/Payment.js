@@ -19,7 +19,7 @@ const paymentCollection = mongoose.model('Payment', paymentSchema);
 router.get('/', async (req, res) => {
 	res.send('Payment Router');
 });
-router.post('/', async (req, res) => {
+router.post('/', verifyJwt, async (req, res) => {
 	try {
 		const paymentData = req.body;
 		// !upadate Booking By booking ID
@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
 		res.status(500).send('There was Sever Side Error');
 	}
 });
-router.post('/create-payment-intent', async (req, res) => {
+router.post('/create-payment-intent', verifyJwt, async (req, res) => {
 	try {
 		const booking = req.body;
 		const {price} = booking;

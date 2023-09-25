@@ -13,7 +13,7 @@ dotenv.config();
 const appointmentRoute = require('./Routes/AppointmentOption');
 const bookingRoute = require('./Routes/Booking');
 const userRoute = require('./Routes/Users');
-const jwtRoute = require('./Routes/JwtRoute');
+const JwtRoute = require('./Routes/JwtRoute');
 const doctorRoute = require('./Routes/Doctor');
 const paymentRoute = require('./Routes/Payment');
 // !database conection with mongoose
@@ -42,7 +42,7 @@ app.use('/booking', bookingRoute);
 // !User Route
 app.use('/users', userRoute);
 // !jwt Route
-app.use('/jwt', jwtRoute);
+app.use('/jwt', JwtRoute);
 // !Doctor Route
 app.use('/doctor', doctorRoute);
 // !Payment Route
