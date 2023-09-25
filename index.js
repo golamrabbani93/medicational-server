@@ -15,6 +15,7 @@ const bookingRoute = require('./Routes/Booking');
 const userRoute = require('./Routes/Users');
 const jwtRoute = require('./Routes/JwtRoute');
 const doctorRoute = require('./Routes/Doctor');
+const paymentRoute = require('./Routes/Payment');
 // !database conection with mongoose
 const database = () => {
 	try {
@@ -44,6 +45,8 @@ app.use('/users', userRoute);
 app.use('/jwt', jwtRoute);
 // !Doctor Route
 app.use('/doctor', doctorRoute);
+// !Payment Route
+app.use('/payment', paymentRoute);
 database();
 // !Root Directory
 app.get('/', (req, res) => {
