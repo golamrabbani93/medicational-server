@@ -6,9 +6,7 @@ const router = express.Router();
 const verifyJwt = require('../middlewares/verifyJWT');
 
 // !Stripe api key
-const stripe = require('stripe')(
-	'sk_test_51NtpOFBOLaOXSm4LxrvxeDKt9dpaxEa1H5x41D3PInctoSyDacWE6RSe3fMnxa48hragfbjvJTIGBcb7BcHIco8400FcMA9cE7',
-);
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 // !Payment Schema
 const paymentSchema = require('../Schemas/paymentSchema');
 const bookingSchemas = require('../Schemas/bookingSchemas');
