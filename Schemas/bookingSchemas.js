@@ -29,6 +29,9 @@ const bookingSchema = mongoose.Schema({
 		type: Number,
 		required: true,
 	},
+	paid: {
+		type: Boolean,
+	},
 });
 
 module.exports = bookingSchema;
